@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,12 +8,45 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextEditingController _textEditingControllerAlcool = TextEditingController();
-  TextEditingController _textEditingControllerGasolina =
-      TextEditingController();
 
-  double _resultado;
-  String _resposta;
+  MoneyMaskedTextController _valorControllerAlcool = MoneyMaskedTextController(
+    thousandSeparator: '.',
+    decimalSeparator: ',',
+    precision: 2,
+  );
+
+  MoneyMaskedTextController _valorControllerGasolina = MoneyMaskedTextController(
+    thousandSeparator: '.',
+    decimalSeparator: ',',
+    precision: 2,
+  );
+
+  double _resultado = 0.0;
+  String _resposta = "...";
+
+  void _calcularCombustivel() {
+    double valorAlcool = double.tryParse(_valorControllerAlcool.text.replaceAll(",", "."));
+    double valorGasolina = double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
+
+    double valor = valorAlcool / valorGasolina;
+
+    _resultado = num.tryParse(valor.toStringAsPrecision(2));
+
+    if (_resultado <= 0.7) {
+      _resposta = "Álcool";
+    } else if (_resultado > 0.7) {
+      _resposta = "Gasolina";
+    }
+
+    setState(() {
+      _resposta;
+      _resultado;
+
+      _valorControllerAlcool.clear();
+      _valorControllerGasolina.clear();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +55,8 @@ class _HomeState extends State<Home> {
         title: Text("Álcool ou Gasolina"),
       ),
       body: Container(
-        padding: EdgeInsets.all(32),
         child: SingleChildScrollView(
+          padding: EdgeInsets.all(32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -37,7 +71,7 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Text(
-                  "Saiba qual a melhor opção para abastecimento do seu carro",
+                  "Saiba qual a melhor opção de combustível",
                   style: TextStyle(
                     fontSize: 25,
                   ),
@@ -52,7 +86,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                controller: _textEditingControllerAlcool,
+                controller: _valorControllerAlcool,
               ),
               //PRECO GASOLINA
               TextField(
@@ -63,7 +97,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 keyboardType: TextInputType.number,
-                controller: _textEditingControllerGasolina,
+                controller: _valorControllerGasolina,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 32),
@@ -76,31 +110,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   color: Colors.blueAccent,
-                  onPressed: () {
-                    print("Valor do alcool: " +
-                        _textEditingControllerAlcool.text);
-                    print("Valor da gasolina: " +
-                        _textEditingControllerGasolina.text);
-
-                    double valorAlcool = double.parse(_textEditingControllerAlcool.text);
-                    double valorGasolina = double.parse(_textEditingControllerGasolina.text);
-
-                    double valor  = valorAlcool / valorGasolina;
-
-                    _resultado = num.parse(valor.toStringAsPrecision(2));
-
-                    if (_resultado <= 0.7){
-                      _resposta = "Alcool";
-                    } else if (_resultado > 0.7){
-                      _resposta = "Gasolina";
-                    }
-
-                    setState(() {
-                      _resultado.toString();
-                      _resposta;
-                    });
-
-                  },
+                  onPressed: _calcularCombustivel,
                 ),
               ),
               Padding(
