@@ -8,14 +8,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   MoneyMaskedTextController _valorControllerAlcool = MoneyMaskedTextController(
     thousandSeparator: '.',
     decimalSeparator: ',',
     precision: 2,
   );
 
-  MoneyMaskedTextController _valorControllerGasolina = MoneyMaskedTextController(
+  MoneyMaskedTextController _valorControllerGasolina =
+      MoneyMaskedTextController(
     thousandSeparator: '.',
     decimalSeparator: ',',
     precision: 2,
@@ -25,8 +25,10 @@ class _HomeState extends State<Home> {
   String _resposta = "...";
 
   void _calcularCombustivel() {
-    double valorAlcool = double.tryParse(_valorControllerAlcool.text.replaceAll(",", "."));
-    double valorGasolina = double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
+    double valorAlcool =
+        double.tryParse(_valorControllerAlcool.text.replaceAll(",", "."));
+    double valorGasolina =
+        double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
 
     double valor = valorAlcool / valorGasolina;
 
@@ -45,7 +47,6 @@ class _HomeState extends State<Home> {
       _valorControllerAlcool.clear();
       _valorControllerGasolina.clear();
     });
-
   }
 
   @override
@@ -101,7 +102,7 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 32),
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text(
                     "Calcular",
                     style: TextStyle(
@@ -109,7 +110,7 @@ class _HomeState extends State<Home> {
                       fontSize: 25,
                     ),
                   ),
-                  color: Colors.blueAccent,
+                  // color: Colors.blueAccent,
                   onPressed: _calcularCombustivel,
                 ),
               ),
