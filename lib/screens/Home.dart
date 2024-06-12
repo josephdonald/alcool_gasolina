@@ -33,7 +33,8 @@ class _HomeState extends State<Home> {
     double valorGasolina =
         double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
 
-    double valor = valorAlcool / valorGasolina;
+    double valor =
+        consultaRealizada.comparaCombustivel(valorGasolina, valorAlcool);
 
     consultaRealizada.resultado = num.tryParse(valor.toStringAsPrecision(2));
 
