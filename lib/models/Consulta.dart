@@ -14,7 +14,7 @@ class Consulta {
     this.resultado = resultado;
   }
 
-  double comparaCombustivel(precoGasolina, precoEtanol) {
-    return this.resultado = precoGasolina / precoEtanol;
+  void comparaCombustivel(precoGasolina, precoEtanol) {
+    this.resultado = precoEtanol / precoGasolina;
   }
 }

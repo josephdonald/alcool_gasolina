@@ -11,24 +11,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Consulta consultaRealizada = Consulta(0, 0);
 
-  // MoneyMaskedTextController _valorControllerAlcool = MoneyMaskedTextController(
-  //   thousandSeparator: '.',
-  //   decimalSeparator: ',',
-  //   precision: 2,
-  // );
-
   TextEditingController _valorControllerAlcool = TextEditingController();
   TextEditingController _valorControllerGasolina = TextEditingController();
 
-  // MoneyMaskedTextController _valorControllerGasolina =
-  //     MoneyMaskedTextController(
-  //   thousandSeparator: '.',
-  //   decimalSeparator: ',',
-  //   precision: 2,
-  // );
-
   double _resultado = 0.0;
   String _resposta = "...";
+
+  List<Consulta> listaDeConsultas = [];
 
   void _calcularCombustivel() {
     double? valorAlcool =
@@ -36,10 +25,7 @@ class _HomeState extends State<Home> {
     double? valorGasolina =
         double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
 
-    double valor =
-        consultaRealizada.comparaCombustivel(valorGasolina, valorAlcool);
-
-    // consultaRealizada.resultado = num!.tryParse(valor.toStringAsPrecision(2));
+    consultaRealizada.comparaCombustivel(valorGasolina, valorAlcool);
 
     if (consultaRealizada.resultado! <= 0.7) {
       consultaRealizada.combustMelhorEscolha = "Álcool";
@@ -103,6 +89,8 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(top: 32),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green),
                       child: Text(
                         "Calcular",
                         style: TextStyle(
@@ -119,7 +107,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(fontSize: 25),
                   ),
                   Text(
-                    "Resultado: " + _resultado.toString(),
+                    "Resultado: " + _resultado.toStringAsFixed(2),
                     style: TextStyle(fontSize: 25),
                   ),
                   Text(
