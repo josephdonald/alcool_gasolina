@@ -1,7 +1,7 @@
 import 'package:alcoolgasolina/models/Consulta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+// import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,42 +11,45 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Consulta consultaRealizada = Consulta(0, 0);
 
-  MoneyMaskedTextController _valorControllerAlcool = MoneyMaskedTextController(
-    thousandSeparator: '.',
-    decimalSeparator: ',',
-    precision: 2,
-  );
+  // MoneyMaskedTextController _valorControllerAlcool = MoneyMaskedTextController(
+  //   thousandSeparator: '.',
+  //   decimalSeparator: ',',
+  //   precision: 2,
+  // );
 
-  MoneyMaskedTextController _valorControllerGasolina =
-      MoneyMaskedTextController(
-    thousandSeparator: '.',
-    decimalSeparator: ',',
-    precision: 2,
-  );
+  TextEditingController _valorControllerAlcool = TextEditingController();
+  TextEditingController _valorControllerGasolina = TextEditingController();
+
+  // MoneyMaskedTextController _valorControllerGasolina =
+  //     MoneyMaskedTextController(
+  //   thousandSeparator: '.',
+  //   decimalSeparator: ',',
+  //   precision: 2,
+  // );
 
   double _resultado = 0.0;
   String _resposta = "...";
 
   void _calcularCombustivel() {
-    double valorAlcool =
+    double? valorAlcool =
         double.tryParse(_valorControllerAlcool.text.replaceAll(",", "."));
-    double valorGasolina =
+    double? valorGasolina =
         double.tryParse(_valorControllerGasolina.text.replaceAll(",", "."));
 
     double valor =
         consultaRealizada.comparaCombustivel(valorGasolina, valorAlcool);
 
-    consultaRealizada.resultado = num.tryParse(valor.toStringAsPrecision(2));
+    // consultaRealizada.resultado = num!.tryParse(valor.toStringAsPrecision(2));
 
-    if (consultaRealizada.resultado <= 0.7) {
+    if (consultaRealizada.resultado! <= 0.7) {
       consultaRealizada.combustMelhorEscolha = "Álcool";
-    } else if (consultaRealizada.resultado > 0.7) {
+    } else if (consultaRealizada.resultado! > 0.7) {
       consultaRealizada.combustMelhorEscolha = "Gasolina";
     }
 
     setState(() {
-      _resposta = consultaRealizada.combustMelhorEscolha;
-      _resultado = consultaRealizada.resultado;
+      _resposta = consultaRealizada.combustMelhorEscolha!;
+      _resultado = consultaRealizada.resultado!;
 
       _valorControllerAlcool.clear();
       _valorControllerGasolina.clear();

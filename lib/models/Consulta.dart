@@ -1,12 +1,12 @@
 class Consulta {
-  double precoGasolina;
-  double precoEtanol;
-  DateTime horarioConsulta;
-  String combustMelhorEscolha;
-  double resultado;
+  double? precoGasolina;
+  double? precoEtanol;
+  DateTime? horarioConsulta;
+  String? combustMelhorEscolha;
+  double? resultado;
 
   Consulta(double precoGasolina, double precoEtanol,
-      {DateTime horario, String melhorEscolha, double resultado}) {
+      {DateTime? horario, String? melhorEscolha, double? resultado}) {
     this.precoGasolina = precoGasolina;
     this.precoEtanol = precoEtanol;
     this.horarioConsulta = horario;
